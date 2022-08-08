@@ -12,7 +12,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 let userSchema = new mongoose.Schema({
   discordId: String,
   username: String,
-  tests: [Number], 
+  tests: [{wpm: Number, accuracy: Number, date: Date}], 
 });
 
 const User = mongoose.model('User', userSchema);
@@ -36,17 +36,39 @@ app.get('/:userId/stats', async function(req, res) {
     await res.json(null);
   } else {
     user = await User.findById(doc._id);
-    let avg = user.tests.reduce((total, num) => {return total + num}, 0) / user.tests.length;
-    let rank = getRank(avg);
-    res.json({"username": user.username, "average": avg, "tests": user.tests.length, rank: rank})
+    let { avgWpm, avgAcc } = getAverages(user.tests);
+    let rank = getRank(avgWpm);
+    res.json({"username": user.username, "averageWpm": avgWpm, "averageAcc": avgAcc, "tests": user.tests.length, rank: rank})
   }
 })
 
+app.post('/test', async function(req, res) {
+  doc = await User.exists({discordId: req.body.discordId});
+  if (doc === null) {
+    res.send('register account to keep track of statistics!');
+  } else {
+    user = await User.findById(doc._id);
+    user.tests.push({wpm: req.body.wpm, accuracy: req.body.acc, new Date()})
+    User.updateOne({discordId: req.body.discordId}, {tests: user.tests})
+      .then(res.send('successful'));
+  }
+})
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`listening on port 3000`)
 })
 
+function getAverages(list) {
+  let avgWpm = 0;
+  let avgAcc = 0;
+  for (let test in list) {
+    wpmTotal += test.wpm;
+    accTotal += test.accuracy;
+  }
+  avgWpm = avgWpm / list.length;
+  avgAcc = avgAcc / list.length;
+  return { avgWpm, avgAcc };
+}
 
 function getRank(wpm) {
   let rank = 'Undetermined';
