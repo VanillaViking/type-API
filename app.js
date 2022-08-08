@@ -43,9 +43,11 @@ app.get('/:userId/stats', async function(req, res) {
 })
 
 app.post('/test', async function(req, res) {
+  console.log(req.body);
   doc = await User.exists({discordId: req.body.discordId});
   if (doc === null) {
-    res.send('register account to keep track of statistics!');
+    console.log('user does not exist');
+    await res.send('register account to keep track of statistics!');
   } else {
     user = await User.findById(doc._id);
     let newTests = user.tests.filter((i) => true).push({wpm: req.body.wpm, accuracy: req.body.acc, date: new Date()});
