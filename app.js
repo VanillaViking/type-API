@@ -64,12 +64,13 @@ app.listen(process.env.PORT || 3000, () => {
 })
 
 function getAverages(list) {
+  console.log(list);
   let avgWpm = 0;
   let avgAcc = 0;
   for (let test in list) {
+    console.log(`${avgWpm} ${avgAcc}`);
     avgWpm += Number(test.wpm);
     avgAcc += Number(test.accuracy);
-    console.log(`${avgWpm} ${avgAcc}`);
   }
   avgWpm = avgWpm / list.length;
   avgAcc = avgAcc / list.length;
