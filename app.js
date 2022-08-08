@@ -7,7 +7,7 @@ const app = express()
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb+srv://ashwinr2k2:ubi7gsta9b@cluster0.qsxprhr.mongodb.net/MyDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(processs.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let userSchema = new mongoose.Schema({
   discordId: String,
@@ -48,25 +48,25 @@ app.listen(process.env.PORT || 3000, () => {
 })
 
 
-function getRank(avg) {
+function getRank(wpm) {
   let rank = 'Undetermined';
-  if (avg < 50) {
+  if (wpm < 50) {
     rank = "Novice"
-  } else if (avg < 60) {
+  } else if (wpm < 60) {
     rank = "Iron"
-  } else if (avg < 70) {
+  } else if (wpm < 70) {
     rank = "Bronze"
-  } else if (avg < 80) {
+  } else if (wpm < 80) {
     rank = "Silver"
-  } else if (avg < 90) {
+  } else if (wpm < 90) {
     rank = "Gold"
-  } else if (avg < 100) {
+  } else if (wpm < 100) {
     rank = "Diamond" 
-  } else if (avg < 110) {
+  } else if (wpm < 110) {
     rank = "Platinum"
-  } else if (avg < 120) {
+  } else if (wpm < 120) {
     rank = "Demon"
-  } else if (avg >= 120) {
+  } else if (wpm >= 120) {
     rank = "God"
   }
   return rank;
