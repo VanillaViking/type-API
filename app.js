@@ -30,6 +30,19 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
+app.post('/register', (req, res) => {
+  doc = await User.exists({discordId: req.body.discordId});
+
+  if (!doc === null) {
+    res.json({"text": `User ${req.body.username} already exists.`})  
+  } else {
+    let user = new User({discordId: msg.author.id, username: msg.author.username, tests: []});
+    user.save()
+      .then(() => res.send(`Registered ${req.body.username}.`))
+
+  }
+});
+
 app.get('/:userId/stats', async function(req, res) {
   doc = await User.exists({discordId: req.params.userId});
   if (doc === null) {
@@ -59,9 +72,14 @@ app.post('/test', async function(req, res) {
   }
 })
 
+
+
+
 app.listen(process.env.PORT || 3000, () => {
   console.log(`listening on port 3000`)
 })
+
+
 
 function getAverages(list) {
   console.log(list);
