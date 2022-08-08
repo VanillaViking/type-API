@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   doc = await User.exists({discordId: req.body.discordId});
 
   if (!doc === null) {
