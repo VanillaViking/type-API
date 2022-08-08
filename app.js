@@ -36,9 +36,9 @@ app.get('/:userId/stats', async function(req, res) {
     await res.json(null);
   } else {
     user = await User.findById(doc._id);
-    let { avgWpm, avgAcc } = getAverages(user.tests);
-    let rank = getRank(avgWpm);
-    res.json({"username": user.username, "averageWpm": avgWpm, "averageAcc": avgAcc, "tests": user.tests.length, "rank": rank})
+    let averages = getAverages(user.tests);
+    let rank = getRank(averages[0]);
+    res.json({"username": user.username, "averageWpm": averages[0], "averageAcc": averages[1], "tests": user.tests.length, "rank": rank})
   }
 })
 
@@ -70,9 +70,10 @@ function getAverages(list) {
     avgWpm += test.wpm;
     avgAcc += test.accuracy;
   }
+  console.log(`${avgWpm} ${avgAcc}`)
   avgWpm = avgWpm / list.length;
   avgAcc = avgAcc / list.length;
-  return { avgWpm, avgAcc };
+  return [avgWpm, avgAcc];
 }
 
 function getRank(wpm) {
