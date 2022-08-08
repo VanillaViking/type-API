@@ -45,12 +45,15 @@ app.get('/:userId/stats', async function(req, res) {
 app.post('/test', async function(req, res) {
   console.log(req.body);
   doc = await User.exists({discordId: req.body.discordId});
+
   if (doc === null) {
     console.log('user does not exist');
     await res.json({"text": "Register your account to keep track of typing stats!"});
+
   } else {
     user = await User.findById(doc._id);
-    let newTests = user.tests.filter((i) => true).push({wpm: Number(req.body.wpm), accuracy: Number(req.body.acc), date: new Date()});
+    let newTests = user.tests.push({wpm: Number(req.body.wpm), accuracy: Number(req.body.acc), date: new Date()});
+    console.log(newTests);
     User.updateOne({discordId: req.body.discordId}, {tests: newTests})
       .then(res.json({"text": 'successful'}));
   }
