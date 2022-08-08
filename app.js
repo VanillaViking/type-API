@@ -7,7 +7,7 @@ const app = express()
 const mongoose = require('mongoose');
 
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://ashwinr2k2:ubi7gsta9b@cluster0.qsxprhr.mongodb.net/MyDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 let userSchema = new mongoose.Schema({
   discordId: String,
