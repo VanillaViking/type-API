@@ -67,8 +67,8 @@ function getAverages(list) {
   let avgWpm = 0;
   let avgAcc = 0;
   for (let test in list) {
-    wpmTotal += test.wpm;
-    accTotal += test.accuracy;
+    avgWpm += test.wpm;
+    avgAcc += test.accuracy;
   }
   avgWpm = avgWpm / list.length;
   avgAcc = avgAcc / list.length;
