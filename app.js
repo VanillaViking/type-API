@@ -52,7 +52,7 @@ app.post('/test', async function(req, res) {
 
   } else {
     user = await User.findById(doc._id);
-    let newTests = user.tests.push({wpm: Number(req.body.wpm), accuracy: Number(req.body.acc), date: new Date()});
+    user.tests.push({wpm: Number(req.body.wpm), accuracy: Number(req.body.acc), date: new Date()});
     console.log(newTests);
     User.updateOne({discordId: req.body.discordId}, {tests: newTests})
       .then(res.json({"text": 'successful'}));
