@@ -38,7 +38,7 @@ app.get('/:userId/stats', async function(req, res) {
     user = await User.findById(doc._id);
     let { avgWpm, avgAcc } = getAverages(user.tests);
     let rank = getRank(avgWpm);
-    res.json({"username": user.username, "averageWpm": avgWpm, "averageAcc": avgAcc, "tests": user.tests.length, rank: rank})
+    res.json({"username": user.username, "averageWpm": avgWpm, "averageAcc": avgAcc, "tests": user.tests.length, "rank": rank})
   }
 })
 
