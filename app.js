@@ -67,10 +67,10 @@ function getAverages(list) {
   console.log(list);
   let avgWpm = 0;
   let avgAcc = 0;
-  for (let test in list) {
+  for (int i = 0; i < list.length; i++) {
     console.log(`${avgWpm} ${avgAcc}`);
-    avgWpm += Number(test.wpm);
-    avgAcc += Number(test.accuracy);
+    avgWpm += Number(list[i].wpm);
+    avgAcc += Number(list[i].accuracy);
   }
   avgWpm = avgWpm / list.length;
   avgAcc = avgAcc / list.length;
