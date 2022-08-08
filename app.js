@@ -48,8 +48,8 @@ app.post('/test', async function(req, res) {
     res.send('register account to keep track of statistics!');
   } else {
     user = await User.findById(doc._id);
-    user.tests.push({wpm: req.body.wpm, accuracy: req.body.acc, new Date()})
-    User.updateOne({discordId: req.body.discordId}, {tests: user.tests})
+    let newTests = user.tests.filter((i) => true).push({wpm: req.body.wpm, accuracy: req.body.acc, date: new Date()});
+    User.updateOne({discordId: req.body.discordId}, {tests: newTests})
       .then(res.send('successful'));
   }
 })
