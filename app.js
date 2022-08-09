@@ -32,13 +32,14 @@ app.get('/', (req, res) => {
 
 app.post('/register', async (req, res) => {
   doc = await User.exists({discordId: req.body.discordId});
+  console.log(doc);
 
   if (!doc === null) {
     res.json({"text": `User ${req.body.username} already exists.`})  
   } else {
     let user = new User({discordId: req.body.discordId, username: req.body.username, tests: []});
     user.save()
-      .then(() => res.send(`Registered ${req.body.username}.`))
+      .then(() => res.json({"text": `Registered ${req.body.username}.`}))
 
   }
 });
