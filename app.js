@@ -9,13 +9,14 @@ const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-let userSchema = new mongoose.Schema({
+let testSchema = new mongoose.Schema({
   discordId: String,
-  username: String,
-  tests: [{wpm: Number, accuracy: Number, date: Date}], 
+  wpm: Number, 
+  accuracy: Number,
+  date: Date, 
 });
 
-const User = mongoose.model('User', userSchema);
+const Test = mongoose.model('Test', testSchema);
 
 app.use(bodyParser.json());
 
@@ -30,58 +31,46 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
-app.post('/register', async (req, res) => {
+/*app.post('/register', async (req, res) => {
   doc = await User.exists({discordId: req.body.discordId});
   console.log(doc);
   console.log(doc === null);
 
   if (!(doc === null)) {
-    res.json({"text": `User ${req.body.username} already exists.`})  
+    res.json({"text": `User already exists.`})  
   } else {
-    let user = new User({discordId: req.body.discordId, username: req.body.username, tests: []});
+    let user = new User({discordId: req.body.discordId, tests: []});
     user.save()
-      .then(() => res.json({"text": `Registered ${req.body.username}.`}))
+      .then(() => res.json({"text": `Successfully registered user.`}))
 
   }
-});
+}); */
 
 app.get('/:userId/stats', async function(req, res) {
-  doc = await User.exists({discordId: req.params.userId});
-  if (doc === null) {
-    await res.json(null);
-  } else {
-    user = await User.findById(doc._id);
+
+    /*users = await User.aggregate([
+      { $match: { discordId: userId } },
+       
+    ]);
+
     let averages = getAverages(user.tests);
     let rank = getRank(averages[0]);
-    res.json({"username": user.username, "averageWpm": averages[0], "averageAcc": averages[1], "tests": user.tests.length, "rank": rank})
-  }
+    res.json({"username": user.username, "averageWpm": averages[0], "averageAcc": averages[1], "tests": user.tests.length, "rank": rank}) */
 })
 
 app.post('/test', async function(req, res) {
   console.log(req.body);
-  doc = await User.exists({discordId: req.body.discordId});
+  
+  let test = new Test({discordId: req.body.discordId, wpm: req.body.wpm, accuracy: req.body.accuracy, date: new Date()});
+  test.save()
+    .then(res.json({text: "Successful."}))
 
-  if (doc === null) {
-    console.log('user does not exist');
-    await res.json({"text": "Register your account to keep track of typing stats!"});
-
-  } else {
-    user = await User.findById(doc._id);
-    user.tests.push({wpm: Number(req.body.wpm), accuracy: Number(req.body.acc), date: new Date()});
-    console.log(user.tests);
-    User.updateOne({discordId: req.body.discordId}, {tests: user.tests})
-      .then(res.json({"text": 'successful'}));
-  }
 })
 
 app.get('/leaderboards/wpm', async function(req, res) {
-  users = await User.find({}).sort('tests.wpm');
-
-
+  users = await User.find({});
+  let leaderboard = [];
   
-  //for (let user in users) {
-     
-  //}
   
 })
 
@@ -132,3 +121,18 @@ function getRank(wpm) {
   return rank;
 
 }
+
+/*  doc = await User.exists({discordId: req.body.discordId});
+
+  if (doc === null) {
+    console.log('user does not exist');
+    await res.json({"text": "Register your account to keep track of typing stats!"});
+
+  } else {
+    user = await User.findById(doc._id);
+    user.tests.push({wpm: Number(req.body.wpm), accuracy: Number(req.body.acc), date: new Date()});
+    console.log(user.tests);
+    User.updateOne({discordId: req.body.discordId}, {tests: user.tests})
+      .then(res.json({"text": 'successful'}));
+  } */
+
