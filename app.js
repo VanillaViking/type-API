@@ -75,8 +75,14 @@ app.post('/test', async function(req, res) {
 })
 
 app.get('/leaderboards/wpm', async function(req, res) {
-  users = await User.find({});
-  console.log(users);
+  users = await User.find({}).sort('tests.wpm');
+
+
+  
+  //for (let user in users) {
+     
+  //}
+  
 })
 
 
