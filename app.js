@@ -48,14 +48,16 @@ app.get('/', (req, res) => {
 
 app.get('/:userId/stats', async function(req, res) {
 
-    /*users = await User.aggregate([
+    users = await User.aggregate([
       { $match: { discordId: userId } },
-       
+      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$acc"}}}
     ]);
 
-    let averages = getAverages(user.tests);
-    let rank = getRank(averages[0]);
-    res.json({"username": user.username, "averageWpm": averages[0], "averageAcc": averages[1], "tests": user.tests.length, "rank": rank}) */
+    console.log(users);
+
+    //let averages = getAverages(user.tests);
+    //let rank = getRank(averages[0]);
+    //res.json({"username": user.username, "averageWpm": averages[0], "averageAcc": averages[1], "tests": user.tests.length, "rank": rank}) 
 })
 
 app.post('/test', async function(req, res) {
