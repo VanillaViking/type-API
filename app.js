@@ -50,14 +50,14 @@ app.get('/:userId/stats', async function(req, res) {
 
     tests = await Test.aggregate([
       { $match: { discordId: req.params.userId } },
-      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$acc"}}}
+      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}}
     ]);
 
-    console.log(tests);
 
     //let averages = getAverages(user.tests);
     //let rank = getRank(averages[0]);
-    //res.json({"username": user.username, "averageWpm": averages[0], "averageAcc": averages[1], "tests": user.tests.length, "rank": rank}) 
+    tests[0].rank = getRank(tests[0].averageWpm)
+    res.json(tests[0]) 
 })
 
 app.post('/test', async function(req, res) {
