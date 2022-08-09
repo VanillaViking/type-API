@@ -65,7 +65,7 @@ app.post('/test', async function(req, res) {
   
   let test = new Test({discordId: req.body.discordId, wpm: req.body.wpm, accuracy: req.body.accuracy, date: new Date()});
   test.save()
-    .then(res.json({text: "Successful."}))
+    .then(res.json({text: "Successful"}))
 
 })
 
