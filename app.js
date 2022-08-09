@@ -58,8 +58,10 @@ app.get('/:userId/stats', async function(req, res) {
     //let rank = getRank(averages[0]);
     if (!(tests === [])) {
       tests[0].rank = getRank(tests[0].averageWpm)
-    }
+      res.json(null)
+    } else {
       res.json(tests[0]) 
+    }
 })
 
 app.post('/test', async function(req, res) {
