@@ -66,10 +66,10 @@ app.get('/:userId/stats', async function(req, res) {
     }
 })
 
-app.post('/test', async function(req, res) {
+app.post('/:userId/test', async function(req, res) {
   console.log(req.body);
   
-  let test = new Test({discordId: req.body.discordId, wpm: req.body.wpm, accuracy: req.body.accuracy, date: new Date()});
+  let test = new Test({discordId: req.params.userId, wpm: req.body.wpm, accuracy: req.body.accuracy, date: new Date()});
   test.save()
     .then(res.json({text: "Successful"}))
 
