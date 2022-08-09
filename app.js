@@ -74,6 +74,11 @@ app.post('/test', async function(req, res) {
   }
 })
 
+app.get('/leaderboards/wpm', async function(req, res) {
+  users = await User.find({});
+  console.log(users);
+})
+
 
 
 
