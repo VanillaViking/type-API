@@ -76,10 +76,12 @@ app.post('/:userId/test', async function(req, res) {
 })
 
 app.get('/leaderboards/wpm', async function(req, res) {
-  users = await User.find({});
-  let leaderboard = [];
-  
-  
+  leaderboard = await Test.aggregate([
+    {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}}
+  ]);
+
+  leaderboard.sort((d1, d2) => ((d1.averageWpm - d2.averageWpm)*-1))
+  res.json({lb: leaderboard})
 })
 
 
