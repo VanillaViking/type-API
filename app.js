@@ -50,7 +50,7 @@ app.get('/:userId/stats', async function(req, res) {
 
     tests = await Test.aggregate([
       { $match: { discordId: req.params.userId } },
-      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}}
+      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, tests: {$sum: 1}}}
     ]);
 
 
