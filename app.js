@@ -58,7 +58,7 @@ app.get('/:userId/stats', async function(req, res) {
     //let averages = getAverages(user.tests);
     //let rank = getRank(averages[0]);
     console.log(tests)
-    if (tests) {
+    if (tests.length != 0) {
       tests[0].rank = getRank(tests[0].averageWpm)
       res.json(tests[0]) 
     } else {
