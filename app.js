@@ -36,7 +36,7 @@ app.post('/register', async (req, res) => {
   if (!doc === null) {
     res.json({"text": `User ${req.body.username} already exists.`})  
   } else {
-    let user = new User({discordId: msg.author.id, username: msg.author.username, tests: []});
+    let user = new User({discordId: req.body.discordId, username: req.body.username, tests: []});
     user.save()
       .then(() => res.send(`Registered ${req.body.username}.`))
 
