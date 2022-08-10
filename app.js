@@ -48,6 +48,25 @@ app.get('/:userId/stats', async function(req, res) {
     }
 })
 
+app.get('/:userId/stats/recent', async function(req, res) {
+    recentAvg = await Test.aggregate([
+      {$match: {discordId: req.params.userId}},
+      {$sort: {date: 1}},
+      {$limit: 10},
+      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, bestWpm: {$max: "$wpm"} }}
+    ]);
+
+    console.log(recentAvg)
+    if (recentAvg.length != 0) {
+      recentAvg[0].rank = getRank(recentAvg[0].averageWpm)
+    } else {
+      res.json(null)
+    }
+
+
+})
+
+
 app.post('/:userId/test', async function(req, res) {
   console.log(req.body);
   
