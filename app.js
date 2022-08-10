@@ -59,7 +59,7 @@ app.post('/:userId/test', async function(req, res) {
 
 app.get('/:userId/best', async function(req, res) {
   best = await Test.aggregate([
-    {$match: {discordId: req.params.userId]},
+    {$match: {discordId: req.params.userId}},
     {$group: {_id: "$discordId", bestWpm: {$max: "$wpm"}}}
   ]);
 
