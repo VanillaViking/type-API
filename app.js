@@ -57,6 +57,20 @@ app.post('/:userId/test', async function(req, res) {
 
 })
 
+app.get('/:userId/best', async function(req, res) {
+  best = await Test.aggregate([
+    {$match: {discordId: req.params.userId]},
+    {$group: {_id: "$discordId", bestWpm: {$max: "$wpm"}}}
+  ]);
+
+  console.log(best)
+  if (best.length != 0) {
+    res.json(best[0])
+  } else {
+    res.json(null)
+  }
+})
+
 app.get('/leaderboards/wpm', async function(req, res) {
   leaderboard = await Test.aggregate([
     {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}}
