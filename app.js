@@ -59,6 +59,7 @@ app.get('/:userId/stats/recent', async function(req, res) {
     console.log(recentAvg)
     if (recentAvg.length != 0) {
       recentAvg[0].rank = getRank(recentAvg[0].averageWpm)
+      res.json(recentAvg[0])
     } else {
       res.json(null)
     }
