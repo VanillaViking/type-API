@@ -78,8 +78,8 @@ app.post('/:userId/test', async function(req, res) {
 })
 
 app.get('/:userId/remove', async function(req, res) {
-  User.remove({discordId: req.params.userId})
-    .then(() => res.json({text: "Removed all tests"}))
+  Test.remove({discordId: req.params.userId})
+    .then(res.json({text: "Removed all tests"}))
 
 })
 
