@@ -79,16 +79,17 @@ app.post('/:userId/test', async function(req, res) {
 
 app.get('/:userId/remove', async function(req, res) {
   Test.remove({discordId: req.params.userId})
-    .then(res.json({text: "Removed all tests"}))
+    .then(res.json({text: "Successful"}))
 
 })
 
 app.get('/leaderboards/wpm', async function(req, res) {
   leaderboard = await Test.aggregate([
     {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}}
+    {$sort: {averageWpm: -1}}
   ]);
 
-  leaderboard.sort((d1, d2) => ((d1.averageWpm - d2.averageWpm)*-1))
+  //leaderboard.sort((d1, d2) => ((d1.averageWpm - d2.averageWpm)*-1))
   res.json({lb: leaderboard})
 })
 
