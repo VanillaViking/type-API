@@ -77,18 +77,10 @@ app.post('/:userId/test', async function(req, res) {
 
 })
 
-app.get('/:userId/best', async function(req, res) {
-  best = await Test.aggregate([
-    {$match: {discordId: req.params.userId}},
-    {$group: {_id: "$discordId", bestWpm: {$max: "$wpm"}}}
-  ]);
+app.get('/:userId/remove', async function(req, res) {
+  User.remove({discordId: req.params.userId})
+    .then(() => res.json({text: "Removed all tests"}))
 
-  console.log(best)
-  if (best.length != 0) {
-    res.json(best[0])
-  } else {
-    res.json(null)
-  }
 })
 
 app.get('/leaderboards/wpm', async function(req, res) {
