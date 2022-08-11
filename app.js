@@ -85,7 +85,7 @@ app.get('/:userId/remove', async function(req, res) {
 
 app.get('/leaderboards/wpm', async function(req, res) {
   leaderboard = await Test.aggregate([
-    {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}}
+    {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}},
     {$sort: {averageWpm: -1}}
   ]);
 
