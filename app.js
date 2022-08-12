@@ -78,7 +78,7 @@ app.post('/:userId/test', async function(req, res) {
 })
 
 app.get('/:userId/remove', async function(req, res) {
-  Test.remove({discordId: req.params.userId})
+  Test.deleteMany({discordId: req.params.userId})
     .then(res.json({text: "Successful"}))
 
 })
