@@ -53,7 +53,7 @@ app.get('/:userId/stats/recent', async function(req, res) {
       {$match: {discordId: req.params.userId}},
       {$sort: {date: -1}},
       {$limit: 10},
-      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, bestWpm: {$max: "$wpm"} }}
+      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, bestWpm: {$max: "$wpm"}, deviation: {$stdDevPop: "$wpm"} }}
     ]);
 
     console.log(recentAvg)
