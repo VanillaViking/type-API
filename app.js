@@ -36,7 +36,7 @@ app.get('/:userId/stats', async function(req, res) {
     console.log(req.params.userId)
     tests = await Test.aggregate([
       { $match: { discordId: req.params.userId } },
-      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, tests: {$sum: 1}, bestWpm: {$max: "$wpm"}}}
+      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, tests: {$sum: 1}, bestWpm: {$max: "$wpm"}, deviation: {$stdDevPop: "$wpm"}}}
     ]);
 
     console.log(tests)
