@@ -91,6 +91,7 @@ app.get('/leaderboards/wpm', async function(req, res) {
 
   //leaderboard.sort((d1, d2) => ((d1.averageWpm - d2.averageWpm)*-1))
   res.json({lb: leaderboard})
+  console.log("hello")
 })
 
 
