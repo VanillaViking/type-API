@@ -171,7 +171,7 @@ function createChart(testList) {
   //labels = testList.map((item) => item.date.toLocaleDateString('en-US'))
 
 
-
+  console.log(testList)
   for (i = 0; i <= testList.length; i++) {
     wpm.push(testList[i].wpm) 
     labels.push(testList[i].date.toLocaleDateString('en-US')) 
