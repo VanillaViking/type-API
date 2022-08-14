@@ -89,13 +89,19 @@ app.get('/leaderboards/wpm', async function(req, res) {
     {$sort: {averageWpm: -1}}
   ]);
 
+
   //leaderboard.sort((d1, d2) => ((d1.averageWpm - d2.averageWpm)*-1))
   res.json({lb: leaderboard})
-  console.log("hello")
 })
 
+app.get('/leaderboards/acc', async function(req, res) {
+  leaderboard = await Test.aggregate([
+    {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}}},
+    {$sort: {averageAcc: -1}}
+  ]);
 
-
+  res.json({lb: leaderboard})
+})
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`listening on port 3000`)
