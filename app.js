@@ -164,7 +164,7 @@ function getRank(wpm) {
 
 function createChart(testList) {
 
-  const wpm = []
+  const wpmList = []
   const labels = []
   //wpm = testList.map((item) => item.wpm) 
 
@@ -172,18 +172,18 @@ function createChart(testList) {
 
 
   console.log(testList)
-  for (i = 0; i <= testList.length; i++) {
-    wpm.push(testList[i].wpm) 
+  for (i = 0; i < testList.length; i++) {
+    wpmList.push(testList[i].wpm) 
     labels.push(testList[i].date.toLocaleDateString('en-US')) 
   }
 
-  console.log(wpm)
+  console.log(wpmList)
 
 
   chart = new QuickChart();
   chart.setConfig({
     type: 'line',
-    data: {labels: labels, datasets: [{label: 'wpm', data: wpm}]}
+    data: {labels: labels, datasets: [{label: 'wpm', data: wpmList}]}
   })
 
   return chart;
