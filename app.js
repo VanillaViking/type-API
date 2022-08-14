@@ -169,7 +169,7 @@ function createChart(testList) {
   wpm = testList.map((item) => item.wpm) 
   console.log(wpm)
 
-  labels = testList.map((item) => item.date.toLocaleFormat('%d-%b-%Y'))
+  labels = testList.map((item) => item.date.toLocaleDateString('%d-%b-%Y'))
 
 
 
