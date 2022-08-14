@@ -153,9 +153,7 @@ function getRank(wpm) {
     rank = "Gold"
   } else if (wpm < 100) {
     rank = "Diamond" 
-  } else if (wpm < 110) {
-    rank = "Platinum"
-  } else if (wpm < 120) {
+ } else if (wpm < 110) {
     rank = "Demon"
   } else if (wpm >= 120) {
     rank = "God"
@@ -166,11 +164,20 @@ function getRank(wpm) {
 
 function createChart(testList) {
 
-  wpm = testList.map((item) => item.wpm) 
+  wpm = []
+  labels = []
+  //wpm = testList.map((item) => item.wpm) 
+
+  //labels = testList.map((item) => item.date.toLocaleDateString('en-US'))
+
+
+
+  for (i = 0; i <= testList.length(); i++) {
+    wpm.push(testList[i].wpm) 
+    labels.push(testList[i].date.toLocaleDateString('en-US')) 
+  }
+
   console.log(wpm)
-
-  labels = testList.map((item) => item.date.toLocaleDateString('en-US'))
-
 
 
   chart = new QuickChart();
