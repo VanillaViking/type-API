@@ -169,12 +169,12 @@ function createChart(testList) {
   //wpm = testList.map((item) => item.wpm) 
 
   //labels = testList.map((item) => item.date.toLocaleDateString('en-US'))
+  
+  increment = testList.length / 10
 
-
-  console.log(testList)
-  for (i = 0; i < testList.length; i++) {
-    wpmList.push(testList[i].wpm) 
-    labels.push(testList[i].date.toLocaleDateString('en-US')) 
+  for (i = 0; i < testList.length; i = i + increment) {
+    wpmList.push(testList[parseInt(i)].wpm) 
+    labels.push(testList[parseInt(i)].date.toLocaleDateString('en-US')) 
   }
 
   console.log(wpmList)
