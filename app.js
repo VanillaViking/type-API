@@ -169,14 +169,14 @@ function createChart(testList) {
   wpm = testList.map((item) => item.wpm) 
   console.log(wpm)
 
-  labels = []
+  labels = testList.map((item) => item.date.toString())
 
 
 
   chart = new QuickChart();
   chart.setConfig({
     type: 'line',
-    data: {datasets: [{data: wpm}]}
+    data: {datasets: [{label: 'wpm', data: wpm}]}
   })
 
   return chart;
