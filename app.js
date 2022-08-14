@@ -119,6 +119,7 @@ app.get('/:userId/chart', async function(req, res) {
   chart = createChart(testList);
 
   url = await chart.getShortUrl();
+  console.log(url)
   res.json({URL: url});
 })
 
