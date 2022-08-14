@@ -4,21 +4,11 @@ const express = require('express')
 let bodyParser = require('body-parser')
 const app = express()
 
-const mongoose = require('mongoose');
+const Test = require('./Database/Test.js')
+
 
 const QuickChart = require('quickchart-js');
 
-
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-let testSchema = new mongoose.Schema({
-  discordId: String,
-  wpm: Number, 
-  accuracy: Number,
-  date: Date, 
-});
-
-const Test = mongoose.model('Test', testSchema);
 
 app.use(bodyParser.json());
 
