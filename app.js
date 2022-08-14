@@ -164,8 +164,8 @@ function getRank(wpm) {
 
 function createChart(testList) {
 
-  wpm = []
-  labels = []
+  const wpm = []
+  const labels = []
   //wpm = testList.map((item) => item.wpm) 
 
   //labels = testList.map((item) => item.date.toLocaleDateString('en-US'))
