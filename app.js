@@ -155,7 +155,7 @@ function getRank(wpm) {
     rank = "Diamond" 
  } else if (wpm < 110) {
     rank = "Demon"
-  } else if (wpm >= 120) {
+  } else if (wpm >= 110) {
     rank = "God"
   }
   return rank;
