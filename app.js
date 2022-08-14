@@ -6,6 +6,8 @@ const app = express()
 
 const mongoose = require('mongoose');
 
+const QuickChart = require('quickchart-js');
+
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -108,6 +110,19 @@ app.listen(process.env.PORT || 3000, () => {
 })
 
 
+app.get('/:userId/chart', async function(req, res) {
+  testList = await Test.aggregate([
+    {$match: {discordId: req.params.userId}},
+    {$sort: {date: 1}},
+  ]);
+  
+  chart = createChart(testList);
+
+  url = await chart.getShortUrl();
+  res.json({URL: url});
+})
+
+
 
 function getAverages(list) {
   console.log(list);
@@ -147,4 +162,23 @@ function getRank(wpm) {
   return rank;
 
 }
+
+function createChart(testList) {
+
+  wpm = testList.map((item) => item.wpm) 
+  console.log(wpm)
+
+  labels = []
+
+
+
+  chart = new QuickChart();
+  chart.setConfig({
+    type: 'line',
+    data: {datasets: [{data: wpm}]}
+  })
+
+  return chart;
+}
+
 
