@@ -6,6 +6,9 @@ const app = express()
 
 const Test = require('./Database/Test.js')
 
+const TestRoutes = require('./Routes/TestRoutes.js')
+
+
 
 const QuickChart = require('quickchart-js');
 
@@ -22,6 +25,11 @@ app.use(function(req, res, next) {
 app.get('/', (req, res) => {
   res.send('Hello World!')
 });
+
+
+app.use('/test', TestRoutes)
+
+
 
 app.get('/:userId/stats', async function(req, res) {
 
@@ -60,20 +68,6 @@ app.get('/:userId/stats/recent', async function(req, res) {
 })
 
 
-app.post('/:userId/test', async function(req, res) {
-  console.log(req.body);
-  
-  let test = new Test({discordId: req.params.userId, wpm: req.body.wpm, accuracy: req.body.accuracy, date: new Date()});
-  test.save()
-    .then(res.json({text: "Successful"}))
-
-})
-
-app.get('/:userId/remove', async function(req, res) {
-  Test.deleteMany({discordId: req.params.userId})
-    .then(res.json({text: "Successful"}))
-
-})
 
 app.get('/leaderboards/wpm', async function(req, res) {
   leaderboard = await Test.aggregate([
