@@ -20,4 +20,14 @@ router.get('/acc/average', async function(req, res) {
   res.json({lb: leaderboard})
 })
 
+router.get('/wpm/best', async function(req, res) {
+  leaderboard = await Test.aggregate([
+    {$group: {_id: "$discordId", bestWpm: {$max: "$wpm"}}},
+    {$sort: {bestWpm: -1}}
+  ]);
+
+  res.json({lb: leaderboard})
+}) 
+
+
 module.exports = router
