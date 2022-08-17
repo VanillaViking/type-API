@@ -7,6 +7,7 @@ let testSchema = new mongoose.Schema({
   wpm: Number, 
   accuracy: Number,
   date: Date, 
+  promptId: String
 });
 
 const Test = mongoose.model('Test', testSchema);

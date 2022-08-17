@@ -8,6 +8,7 @@ const TestRoutes = require('./Routes/TestRoutes.js')
 const StatsRoutes = require('./Routes/StatsRoutes.js')
 const LeaderboardRoutes = require('./Routes/LeaderboardRoutes.js')
 const ChartRoutes = require('./Routes/ChartRoutes.js')
+const AdminRoutes = require('./Routes/AdminRoutes.js')
 
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
@@ -23,6 +24,7 @@ app.use('/test', TestRoutes)
 app.use('/stats', StatsRoutes)
 app.use('/leaderboards', LeaderboardRoutes)
 app.use('/chart', ChartRoutes)
+app.use('/admin', AdminRoutes)
 
 //-----------------------------------------
 
