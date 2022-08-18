@@ -9,4 +9,13 @@ router.post('/add/prompt', async function(req, res) {
   testPrompt.save().then(res.json({text: "Successful"}))
 })
 
+router.get('/find/cheaters', async function(req, res) {
+  users = await Test.aggregate([
+    {$match: {wpm: {$gte: 250}}},
+    {$sort: {wpm: -1}}
+  ])
+
+  res.json({users: users})
+})
+
 module.exports = router
