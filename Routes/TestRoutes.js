@@ -10,9 +10,4 @@ router.post('/add/:userId', async function(req, res) {
 
 }) 
 
-router.get('/remove/:userId', async function(req, res) {
-  Test.deleteMany({discordId: req.params.userId})
-    .then(res.json({text: "Successful"}))
-})
-
 module.exports = router

@@ -18,4 +18,16 @@ router.get('/find/cheaters', async function(req, res) {
   res.json({users: users})
 })
 
+router.get('/remove/cheatedtests', async function(req, res) {
+  Test.deleteMany({wpm: {$gte: 250}})
+    .then(res.json({text: "done"}))
+})
+
+router.get('/remove/:userId', async function(req, res) {
+  Test.deleteMany({discordId: req.params.userId})
+    .then(res.json({text: "Successful"}))
+})
+
+
+
 module.exports = router
