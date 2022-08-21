@@ -16,6 +16,26 @@ router.get('/wpm/:userId', async function(req, res) {
   res.json({URL: url});
 })
 
+router.get('/wpm/:userId1/:userId2', async function(req, res) {
+  testList1 = await Test.aggregate([
+    {$match: {discordId: req.params.userId1}},
+    {$sort: {date: 1}},
+  ]);
+
+  testList2 = await Test.aggregate([
+    {$match: {discordId: req.params.userId2}},
+    {$sort: {date: 1}},
+  ]);
+
+
+  chart = createCompareChart(getDataList(testList1, 'wpm'), "user1", getDataList(testList2, 'wpm'), "user2")
+
+  url = await chart.getShortUrl();
+  res.json({URL: url})
+
+
+}) 
+
 module.exports = router
 
 function createChart(testList) {
@@ -45,6 +65,14 @@ function createChart(testList) {
   return chart;
 }
 
+function createCompareChart(dataList1, name1, dataList2, name2) {
+  chart = new QuickChart();
+  chart.setConfig({
+    type: 'line',
+    data: {labels: dataList1.labels, datasets: [{label: name1, data: dataList1.data}, {label: name2, data: dataList2.data}]}
+  })
 
+  return chart
+}
 
 
