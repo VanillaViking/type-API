@@ -8,9 +8,9 @@ router.get('/wpm/:userId', async function(req, res) {
     {$match: {discordId: req.params.userId}},
     {$sort: {date: 1}},
   ]);
-  
-  chart = createChart(testList);
 
+  chart = createChart(getDataList(testList, 'wpm'))
+  
   url = await chart.getShortUrl();
   console.log(url)
   res.json({URL: url});
@@ -18,28 +18,26 @@ router.get('/wpm/:userId', async function(req, res) {
 
 module.exports = router
 
-function createChart(testList) {
-
-  const wpmList = []
+function getDataList(testList, attribute) {
+  const dataset = []
   const labels = []
-  //wpm = testList.map((item) => item.wpm) 
-
-  //labels = testList.map((item) => item.date.toLocaleDateString('en-US'))
-  
+ 
   increment = testList.length / 10
 
   for (i = 0; i < testList.length; i = i + increment) {
-    wpmList.push(testList[parseInt(i)].wpm) 
+    dataset.push(testList[parseInt(i)][attribute]) 
     labels.push(testList[parseInt(i)].date.toLocaleDateString('en-US')) 
   }
 
-  console.log(wpmList)
+  return { data: dataset, labels: labels }
+}
 
+function createChart(dataList) {
 
   chart = new QuickChart();
   chart.setConfig({
     type: 'line',
-    data: {labels: labels, datasets: [{label: 'wpm', data: wpmList}]}
+    data: {labels: dataList.labels, datasets: [{label: 'wpm', data: dataList.data}]}
   })
 
   return chart;
