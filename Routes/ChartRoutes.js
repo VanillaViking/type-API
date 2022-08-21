@@ -67,7 +67,7 @@ function createCompareChart(dataList1, name1, dataList2, name2) {
   chart = new QuickChart();
   chart.setConfig({
     type: 'line',
-    data: {labels: dataList1.labels, datasets: [{label: name1, data: dataList1.data}, {label: name2, data: dataList2.data}]}
+    data: {labels: dataList1.labels, datasets: [{label: name1, data: dataList1.data, fill: false}, {label: name2, data: dataList2.data, fill: false}]}
   })
 
   return chart
