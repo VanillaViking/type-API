@@ -24,6 +24,19 @@ router.get('/recent/:userId', async function(req, res) {
       {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, bestWpm: {$max: "$wpm"}, deviation: {$stdDevPop: "$wpm"} }}
     ]);
 
+  tpList = await Test.aggregate([
+    {$match: {discordId: req.params.userId, tp: {$exists: true}}},
+    {$sort: {tp: -1}},
+    {$limit: 100}
+  ]);
+    
+    weightedTp = 0
+    for (i = 0; i < tpList.length; i++) {
+      weightedTp += (tpList[i].tp * Math.pow(0.95, i))
+    }
+
+    recentAvg[0].weightedTp = weightedTp
+
     if (recentAvg.length != 0) {
       recentAvg[0].rank = getRank(recentAvg[0].averageWpm)
       res.json(recentAvg[0])
