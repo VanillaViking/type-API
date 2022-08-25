@@ -21,21 +21,10 @@ router.get('/recent/:userId', async function(req, res) {
       {$match: {discordId: req.params.userId}},
       {$sort: {date: -1}},
       {$limit: 10},
-      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, bestWpm: {$max: "$wpm"}, deviation: {$stdDevPop: "$wpm"} }}
+      {$group: {_id: "$discordId", averageWpm: {$avg: "$wpm"}, averageAcc: {$avg: "$accuracy"}, bestWpm: {$max: "$wpm"}, deviation: {$stdDevPop: "$wpm"}}}
     ]);
 
-  tpList = await Test.aggregate([
-    {$match: {discordId: req.params.userId, tp: {$exists: true}}},
-    {$sort: {tp: -1}},
-    {$limit: 100}
-  ]);
-    
-    weightedTp = 0
-    for (i = 0; i < tpList.length; i++) {
-      weightedTp += (tpList[i].tp * Math.pow(0.95, i))
-    }
-
-    recentAvg[0].weightedTp = weightedTp
+    recentAvg[0].weightedTp = await getWeightedTp(req.params.userId)
 
     if (recentAvg.length != 0) {
       recentAvg[0].rank = getRank(recentAvg[0].averageWpm)
@@ -47,6 +36,20 @@ router.get('/recent/:userId', async function(req, res) {
 })
 
 module.exports = router
+
+async function getWeightedTp(id) {
+  tpList = await Test.aggregate([
+    {$match: {discordId: id, tp: {$exists: true}}},
+    {$sort: {tp: -1}},
+    {$limit: 100}
+  ]);
+    
+    weightedTp = 0
+    for (i = 0; i < tpList.length; i++) {
+      weightedTp += (tpList[i].tp * Math.pow(0.95, i))
+    }
+  return weightedTp
+}
 
 function getRank(wpm) {
   let rank = 'Undetermined';
