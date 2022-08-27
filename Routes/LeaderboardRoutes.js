@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Test = require('../Database/Test.js');
+const User = require('../Database/User.js');
+
 
 router.get('/wpm/average', async function(req, res) {
   leaderboard = await Test.aggregate([
@@ -29,5 +31,10 @@ router.get('/wpm/best', async function(req, res) {
   res.json({lb: leaderboard})
 }) 
 
+router.get('/tp/total', async function(req, res) {
+  leaderboard = await User.find({}).sort({totalTp: -1})
+
+  res.json({lb: leaderboard})
+}) 
 
 module.exports = router
