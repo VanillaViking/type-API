@@ -4,10 +4,8 @@ const mongoose = require('mongoose');
 let userSchema = new mongoose.Schema({
   discordId: String,
   totalTp: Number,
-  totalTests: Number,
-  bestWpm: Number
 });
 
-const User = mongoose.model('User', testSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User
