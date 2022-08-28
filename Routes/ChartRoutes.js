@@ -6,7 +6,8 @@ const QuickChart = require('quickchart-js');
 router.get('/wpm/:userId', async function(req, res) {
   testList = await Test.aggregate([
     {$match: {discordId: req.params.userId}},
-    {$sort: {date: 1}},
+    {$sort: {date: -1}},
+    {$limit: 10}
   ]);
 
   chart = createChart(getDataList(testList, 'wpm'))
@@ -39,12 +40,12 @@ router.get('/wpm/:userId1/:userId2', async function(req, res) {
 module.exports = router
 
 function getDataList(testList, attribute) {
+  testList = testList.reverse()
   const dataset = []
   const labels = []
  
-  increment = testList.length / 10
 
-  for (i = 0; i < testList.length; i = i + increment) {
+  for (i = 0; i < testList.length; i++) {
     dataset.push(testList[parseInt(i)][attribute]) 
     labels.push(testList[parseInt(i)].date.toLocaleDateString('en-US')) 
   }
