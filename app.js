@@ -1,17 +1,26 @@
-require('dotenv').config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const express = require('express')
-let bodyParser = require('body-parser')
+console.log(process.env)
+import express from "express"
+import bodyParser from "body-parser"
+
 const app = express()
 
-const TestRoutes = require('./Routes/TestRoutes.js')
-const StatsRoutes = require('./Routes/StatsRoutes.js')
-const LeaderboardRoutes = require('./Routes/LeaderboardRoutes.js')
-const ChartRoutes = require('./Routes/ChartRoutes.js')
-const AdminRoutes = require('./Routes/AdminRoutes.js')
-const WebsiteRoutes = require('./Routes/WebsiteRoutes.js')
+import {
+  TestRoutes,
+  //StatsRoutes,
+  //LeaderboardRoutes,
+  //ChartRoutes,
+  //AdminRoutes,
+  //WebsiteRoutes,
+} from "./Routes/index.js"
 
 app.use(bodyParser.json());
+
+// apply CORS middleware
+// currently accepts requests from everywhere
+// TODO: change this to only accept localhost
 app.use(function(req, res, next) {
   console.log(req.method + " " + req.path + " - " + req.ip);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -22,11 +31,11 @@ app.use(function(req, res, next) {
 //ROUTES-----------------------------------
 
 app.use('/test', TestRoutes)
-app.use('/stats', StatsRoutes)
-app.use('/leaderboards', LeaderboardRoutes)
-app.use('/chart', ChartRoutes)
-app.use('/admin', AdminRoutes)
-app.use('/zyenyo', WebsiteRoutes)
+//app.use('/stats', StatsRoutes)
+//app.use('/leaderboards', LeaderboardRoutes)
+//app.use('/chart', ChartRoutes)
+//app.use('/admin', AdminRoutes)
+//app.use('/zyenyo', WebsiteRoutes)
 
 //-----------------------------------------
 

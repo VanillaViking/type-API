@@ -15,6 +15,8 @@
     "express": "^4.18.1",
     "mongodb": "^4.8.1",
     "mongoose": "^6.5.1",
-    "quickchart-js": "^3.0.2"
-  }
+    "quickchart-js": "^3.0.2",
+    "simpl-schema": "^3.4.1"
+  },
+  "type": "module"
 }

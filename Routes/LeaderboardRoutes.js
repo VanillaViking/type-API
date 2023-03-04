@@ -37,4 +37,8 @@ router.get('/tp/total', async function(req, res) {
   res.json({lb: leaderboard})
 }) 
 
+router.get('/:statistic', async function(req, res) {
+  
+})
+
 module.exports = router

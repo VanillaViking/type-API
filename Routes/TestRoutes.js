@@ -1,13 +1,20 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const Test = require('../Database/Test.js');
-const User = require('../Database/User.js');
-
+import { Test, addTests } from '../Database/Tests/index.js'
+import User from '../Database/Users/index.js'
 
 router.post('/add/:userId', async function(req, res) {
-  let test = new Test({discordId: req.params.userId, wpm: req.body.wpm, accuracy: req.body.accuracy, tp: req.body.tp, date: new Date()});
-  
-  await test.save()
+
+  console.log(req.body);
+
+  const result = await addTests({
+    tests: [{
+      discordId: req.params.userId,
+      ...req.body
+    }]
+  });
+
+  console.log(result)
 
   weightedTp = await getWeightedTp(req.params.userId)
   user = await User.findOneAndUpdate({discordId: req.params.userId}, {totalTp: weightedTp})
@@ -22,7 +29,7 @@ router.post('/add/:userId', async function(req, res) {
 
 }) 
 
-module.exports = router
+export default router
 
 async function getWeightedTp(id) {
   tpList = await Test.aggregate([
@@ -31,7 +38,7 @@ async function getWeightedTp(id) {
     {$limit: 100}
   ]);
     
-    weightedTp = 0
+    let weightedTp = 0
     for (i = 0; i < tpList.length; i++) {
       weightedTp += (tpList[i].tp * Math.pow(0.95, i))
     }

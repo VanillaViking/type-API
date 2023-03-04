@@ -1,7 +1,7 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const Test = require('../Database/Test.js');
-const Prompt = require('../Database/Prompt.js');
+import { Test } from '../Database/Tests/index.js'
+import Prompt from '../Database/Prompts/index.js'
 
 router.post('/add/prompt', async function(req, res) {
   let testPrompt = new Prompt({text: req.body.text})  
@@ -28,6 +28,4 @@ router.get('/remove/:userId', async function(req, res) {
     .then(res.json({text: "Successful"}))
 })
 
-
-
-module.exports = router
+export default router
